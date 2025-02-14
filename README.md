@@ -2,7 +2,7 @@
 An analysis of the UK festival market in 2025
 
 ## Overview
-A look at the UK festival market in 2025 using data scraped from the internet and augmented with 30 years worth of historical weather data for each location.
+A look at 206 UK festivals in 2025 using data scraped from the internet and augmented with 30 years worth of historical weather data for each location.
 
 ## Tools Used
 - Screaming Frog
