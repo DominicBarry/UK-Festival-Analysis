@@ -1,5 +1,5 @@
 # UK-Festival-Analysis
-Analysis of the UK festival market &amp; weather
+An analysis of the UK festival market in 2025 &amp; weather
 
 ## Overview
 Brief description of your data analysis project
