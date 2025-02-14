@@ -46,7 +46,7 @@ A look at 206 UK festivals in 2025 using data scraped from the internet and augm
   - Export as CSV
 - **Analysis performed**
 - For 206 festivals in 2025:
-  - Analyse music genre, country, region, month, duration by capcity/festival count
+  - Analyse music genre, country, region, month, duration by capacity/festival count
   - Analyse top 10 festivals by capacity
 - For weather
 
