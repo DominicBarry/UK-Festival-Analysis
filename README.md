@@ -20,7 +20,6 @@ A look at 206 UK festivals in 2025 using data scraped from the internet and augm
 - Tableau
 
 ## Project Structure
-
 - **Data cleaning and preparation**
   - Scrape festival details from efestivals.co.uk with Screaming Frog using custom extracts
   - Export crawl data as CSV
@@ -45,7 +44,6 @@ A look at 206 UK festivals in 2025 using data scraped from the internet and augm
   - Review for gaps, outliers & duplicates
   - Geo code lat, long values based on postcode using "Geocoding by SmartMonkey" extension for Google Sheets
   - Export as CSV
-
 - **Analysis performed**
 - For 206 festivals in 2025:
   - Analyse music genre, country, region, month, duration by capcity/festival count
