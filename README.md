@@ -7,7 +7,8 @@ Brief description of your data analysis project
 ## Tools Used
 - Screaming Frog
 - Google Sheets
-- Geocoding by SmartMonkey
+  - Geocoding by SmartMonkey
+  - Regex
 - Claude.ai
 - R
 - Python
