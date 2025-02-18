@@ -63,8 +63,6 @@ The analysis folder contains Python scripts to be run in RStudio in the followin
      - Rainfall analysis (counting days with >5mm as rain days)
      - Temperature and wind statistics
 
-Note: `festival-weather-summary.py` was an earlier version and has been superseded by `festival-weather-summary-5mm.py`.
-
 ## Data Processing Methodology
 1. **Data Collection & Cleaning**
    - Scraped festival details using Screaming Frog with custom extracts
