@@ -53,4 +53,5 @@ Interactive Tableau dashboards presenting market and weather insights:
 ![Weather Analysis Dashboard](visualizations/weather-dashboard.png)
 *Dashboard 2: Historical Weather Analysis by Festival Location*
 
-[View Interactive Dashboards on Tableau Public](#) <https://public.tableau.com/app/profile/dom.barry/viz/UKFestivalAnalysis2025/FestivalAnalysis>
+[View Interactive Dashboards on Tableau Public ↗](https://public.tableau.com/app/profile/dom.barry/viz/UKFestivalAnalysis2025/FestivalAnalysis)
+
