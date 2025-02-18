@@ -284,5 +284,5 @@ def main(start_festival=0, end_festival=207):
             print(f"- {festival}")
 
 if __name__ == "__main__":
-    # Test run with just first 2 festivals
-    main(start_festival=0, end_festival=2)
+    # Run for all festivals
+    main(start_festival=0, end_festival=207)
