@@ -103,6 +103,7 @@ An analysis of UK festivals in 2025, a Tableau dashboard project for my data por
     - Home of the Drum is the least windy festival with an avg. max wind speed of 16.8kmh
     - Jazz Cafe Festival is the warmest festival with avg. min/max temperature range of 14.3C to 22.4C
     - Tolpuddle Martyrs Festival and Rally has the best weather score of all 206 festivala
+      
 ## Visualizations
 Two interactive Tableau dashboards were created to present the analysis:
 ![Festivals Overview Dashboard](visualizations/festivals-dashboard.png)
@@ -110,5 +111,6 @@ Two interactive Tableau dashboards were created to present the analysis:
 
 ![Weather Analysis Dashboard](visualizations/weather-dashboard.png)
 *Dashboard 2: Top level festival weather analysis based 30 years worth of historical weather data for each location*
+
 ## Results
 Summary of your key findings and link to your Tableau dashboard
