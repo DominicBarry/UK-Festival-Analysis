@@ -105,10 +105,10 @@ An analysis of UK festivals in 2025, a Tableau dashboard project for my data por
     - Tolpuddle Martyrs Festival and Rally has the best weather score of all 206 festivala
 ## Visualizations
 Two interactive Tableau dashboards were created to present the analysis:
-![Sales Overview Dashboard](visualizations/sales_dashboard.png)
-*Dashboard 1: Overview of key sales metrics and trends*
+![Festivals Overview Dashboard](visualizations/festivals-dashboard.png)
+*Dashboard 1: Overview of UK festival market in 2025*
 
-![Customer Analysis Dashboard](visualizations/customer_dashboard.png)
-*Dashboard 2: Deep dive into customer segmentation and behavior*
+![Weather Analysis Dashboard](visualizations/weather-dashboard.png)
+*Dashboard 2: Top level festival weather analysis based 30 years worth of historical weather data for each location*
 ## Results
 Summary of your key findings and link to your Tableau dashboard
