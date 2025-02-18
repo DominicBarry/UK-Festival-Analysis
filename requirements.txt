@@ -1,0 +1,19 @@
+# Core data processing
+pandas>=1.5.0
+numpy>=1.21.0
+
+# API and HTTP requests
+requests>=2.28.0
+
+# Statistical analysis
+scipy>=1.7.0
+
+# Time handling (part of Python standard library, listed for clarity)
+time
+datetime
+
+# JSON handling (part of Python standard library, listed for clarity)
+json
+
+# Optional but recommended for development
+ipython>=8.0.0  # For interactive development
