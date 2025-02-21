@@ -50,7 +50,7 @@ The analysis folder contains Python scripts to be run in RStudio in the followin
    - Output: all_festivals_historical_weather.csv
    - Purpose: Collects 30 years of weather data for each festival location via Open-Meteo API
 
-2. `process_weather_data.py`
+2. `weather-data-validator-detailed.py'
    - Input: all_festivals_historical_weather.csv
    - Output: Processed weather data ready for analysis
    - Purpose: Initial processing of raw weather data
