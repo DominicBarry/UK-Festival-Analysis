@@ -58,6 +58,7 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 #### Filter Controls
 - **Region dropdown** for geographic filtering
 - **Music Genre dropdown** for genre-specific analysis
+- **Search by Festival Name text field** for festival-specific analysis
 - **Month slider** for temporal filtering
 
 #### Weather Metric Comparisons
@@ -71,29 +72,6 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 - **Coldest Festivals** dot plot showing min/max temperature ranges
 
 #### Summary Metrics
-- **Festival Weather Score** bar chart ranking overall weather quality (Tolpuddle Martyrs Festival leading)
-- **Weather Map** showing geographic distribution of festivals with color-coded weather scores
-
-#### Filter Controls
-
-- **Region dropdown** for geographic filtering
-- **Music Genre dropdown** for genre-specific analysis
-- **Month slider** for temporal filtering
-
-#### Weather Metric Comparisons
-
-- **Wettest Festivals** bar chart showing rainfall probability (Solfest at 30.0%)
-- **Driest Festivals** bar chart showing minimal rainfall chance (Cross The Tracks at 3.3%)
-- **Windiest Festivals** bar chart showing average max windspeed (Tiree Music Festival at 30.2 kmh)
-- **Least Windy Festivals** bar chart (Home of the Drum at 16.8 kmh)
-
-#### Temperature Analysis
-
-- **Warmest Festivals** dot plot showing min/max temperature ranges (Jazz Cafe Festival leading)
-- **Coldest Festivals** dot plot showing min/max temperature ranges
-
-#### Summary Metrics
-
 - **Festival Weather Score** bar chart ranking overall weather quality (Tolpuddle Martyrs Festival leading)
 - **Weather Map** showing geographic distribution of festivals with color-coded weather scores
 
