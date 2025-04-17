@@ -1,81 +1,86 @@
 # UK Festival Analysis
-A comprehensive analysis of 206 UK festivals combining web scraping, data engineering, and weather analysis to create interactive visualizations.
+A comprehensive analysis of 206 UK festivals in 2025, combining web scraped festival data with 30 years of historical weather patterns to provide insights and predict optimal festival experiences through interactive visualizations.
 
-## Skills Demonstrated
+## Overview
+
+- Festival info scraped from the internet, extracted, cleaned, augmented, geocoded
+- Geocoded weather data sourced from Open-Meteo.com
+- Screaming Frog, Google Sheets, Geocoding by SmartMonkey, Claude.ai, R, Python & Tableau used
+- It was then imported into Tableau & augmented with calculated fields to support further analysis
+
+## Data Structure
+
+The database structure as seen below consists of 3 tables, 'UK Festivals', 'Weather Data' and 'Weather Comparison':
+
+![ERD Diagram for UK Festival Analysis](visualizations/ERD-diagram.png)
+
+The steps taken to process the data prior to analysis in Tableau can be found [here](documentation/data-prep-summary.md).
+
+## Methodology
+
 - Web Scraping & Data Collection
 - Data Cleaning & Transformation
 - API Integration
 - Statistical Analysis
 - Geographic Data Processing
-- Data Visualization
-
-## Overview
-An analysis of UK festivals in 2025, demonstrating end-to-end data analysis capabilities. The project combines festival data scraped from the internet with 30 years of historical weather data to provide insights into the UK festival landscape and predict optimal festival experiences based on historical weather patterns.
+- Data Visualization using Tableau
 
 ## Tools Used
+
 - Data Collection: Screaming Frog
 - Data Processing: Google Sheets, Python (Pandas, NumPy, SciPy)
 - API Integration: Open-Meteo Weather API
 - Development: R Studio
 - Visualization: Tableau
 
-## Getting Started
+## Dashboard Structure
 
-### Prerequisites
-- RStudio
-- Python 3.12.7
-- pip (Python package installer)
-- reticulate (R package for Python integration)
+### 1. Festival Market Overview Dashboard
 
-### Environment Setup
-1. Clone the repository
-   ```bash
-   git clone https://github.com/DominicBarry/UK-Festival-Analysis.git
-   ```
-2. Open RStudio
-3. Configure Python within RStudio:
-   - Tools → Global Options → Python
-   - RStudio uses reticulate virtual environment at:
-     `/Users/DomBarry/.virtualenvs/r-reticulate/bin/python3`
-   - Install required packages:
-     ```bash
-     pip install -r requirements.txt
-     ```
+#### Key Metrics (BANs)
 
-### Data Processing Scripts
-The analysis folder contains Python scripts to be run in RStudio in the following sequence:
+- **Total festivals** (206)
+- **Average duration** (3 days)
+- **Average capacity** (14,239)
 
-1. `historical-weather.py`
-   - Input: festivals.csv (contains festival details with lat/long)
-   - Output: all_festivals_historical_weather.csv
-   - Purpose: Collects 30 years of weather data for each festival location via Open-Meteo API
+#### Market Segmentation Visualizations
 
-2. `process_weather_data.py`
-   - Input: all_festivals_historical_weather.csv
-   - Output: Processed weather data ready for analysis
-   - Purpose: Initial processing of raw weather data
+- **Top Genres** treemap showing distribution by count/capacity (Mixed/General leading with 63 festivals)
+- **UK Map** showing geographic distribution of festivals with size/color indicating capacity
+- **Country breakdown** bar chart showing England (178) dominates with Scotland (14) and Wales (13) following
+- **Top Regions** bar chart highlighting South East (34) and South West (32) as leading areas
+- **Month distribution** bar chart showing July (76) and August (47) as peak festival months
+- **Duration distribution** showing 3-day festivals (68) are most common
+- **Top Festivals** by capacity bar chart with Glastonbury (210K) leading
 
-3. `festival-weather-summary-5mm.py`
-   - Input: Processed weather data
-   - Output: festival_weather_comparison.csv
-   - Purpose: Creates final weather metrics, including:
-     - Festival Weather Score based on standardized measurements
-     - Rainfall analysis (counting days with >5mm as rain days)
-     - Temperature and wind statistics
+### 2. Weather Analysis Dashboard
 
-## Data Processing Methodology
-1. **Data Collection & Cleaning**
-   - Scraped festival details using Screaming Frog with custom extracts
-   - Processed raw data using regex to extract key data points
-   - Geocoded locations using SmartMonkey
-   - Augmented dataset with AI-assisted categorization (validated manually)
+#### Filter Controls
 
-2. **Weather Data Integration**
-   - Developed Python scripts to collect 30 years of historical weather data
-   - Created aggregated weather metrics and scoring system
-   - Generated comprehensive weather analysis per festival
+- **Region dropdown** for geographic filtering
+- **Music Genre dropdown** for genre-specific analysis
+- **Month slider** for temporal filtering
 
-## Key Insights
+#### Weather Metric Comparisons
+
+- **Wettest Festivals** bar chart showing rainfall probability (Solfest at 30.0%)
+- **Driest Festivals** bar chart showing minimal rainfall chance (Cross The Tracks at 3.3%)
+- **Windiest Festivals** bar chart showing average max windspeed (Tiree Music Festival at 30.2 kmh)
+- **Least Windy Festivals** bar chart (Home of the Drum at 16.8 kmh)
+
+#### Temperature Analysis
+
+- **Warmest Festivals** dot plot showing min/max temperature ranges (Jazz Cafe Festival leading)
+- **Coldest Festivals** dot plot showing min/max temperature ranges
+
+#### Summary Metrics
+
+- **Festival Weather Score** bar chart ranking overall weather quality (Tolpuddle Martyrs Festival leading)
+- **Weather Map** showing geographic distribution of festivals with color-coded weather scores
+
+
+## Key Findings
+
 - Market Analysis:
   - Mixed/general is the leading genre with 63 festivals (1.3 million capacity)
   - July hosts most festivals (76), but August has highest capacity (885k)
@@ -88,8 +93,7 @@ The analysis folder contains Python scripts to be run in RStudio in the followin
   - Warmest: Jazz Cafe Festival (14.3C-22.4C temperature range)
   - Best Overall Weather: Tolpuddle Martyrs Festival and Rally
 
-## Visualizations
-Interactive Tableau dashboards presenting market and weather insights:
+## How to view the dashboard
 
 ![Festivals Overview Dashboard](visualizations/festivals-dashboard.png)
 *Dashboard 1: UK Festival Market Analysis 2025*
@@ -98,3 +102,7 @@ Interactive Tableau dashboards presenting market and weather insights:
 *Dashboard 2: Historical Weather Analysis by Festival Location*
 
 [View Interactive Dashboards on Tableau Public ↗](https://public.tableau.com/app/profile/dom.barry/viz/UKFestivalAnalysis2025/FestivalAnalysis)
+
+## Caveats & Assumptions
+
+Festival specifc information was scraped from 3rd party sites on the internet & is not guaranteed to be reliable but does provide a reasonable data set for analysis. It would be very interesting to repeat this analysis using first party data from industry bodies and/or licensing authorities.
