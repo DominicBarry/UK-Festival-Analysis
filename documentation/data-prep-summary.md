@@ -24,15 +24,20 @@ The analysis folder contains Python scripts to be run in RStudio in the followin
 
 1. [`historical-weather.py`](../analysis/historical-weather.py)
    - Input: festivals.csv (contains festival details with lat/long)
-   - Output: all_festivals_historical_weather.csv
+   - Output: Output: Checkpoint files and combined weather data
    - Purpose: Collects 30 years of weather data for each festival location via Open-Meteo API
 
-2. [`process_weather_data.py`](../analysis/process_weather_data.py)
+2. [`weather-data-validator-detailed.py`](../analysis/weather-data-validator-detailed.py) (optional, for data validation)
    - Input: all_festivals_historical_weather.csv
-   - Output: Processed weather data ready for analysis
-   - Purpose: Initial processing of raw weather data
+   - Output: Validation report (console output)
+   - Purpose: Checks for missing data, duplicates, and other data quality issues
+   
+3. [`weather-outlier-checker.py`](../analysis/weather-outlier-checker.py) (optional, for outlier detection)
+   - Input: all_festivals_historical_weather.csv
+   - Output: Outlier reports and CSV files
+   - Purpose: Identifies statistical outliers in weather metrics   
 
-3. [`festival-weather-summary-5mm.py`](../analysis/festival-weather-summary-5mm.py)
+4. [`festival-weather-summary-5mm.py`](../analysis/festival-weather-summary-5mm.py)
    - Input: Processed weather data
    - Output: festival_weather_comparison.csv
    - Purpose: Creates final weather metrics, including:
