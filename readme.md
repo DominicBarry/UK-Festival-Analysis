@@ -55,6 +55,19 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 ### 2. Weather Analysis Dashboard
 
+2. `weather-data-validator-detailed.py`
+   - Input: all_festivals_historical_weather.csv
+   - Output: Processed weather data ready for analysis
+   - Purpose: Initial processing of raw weather data
+
+3. `festival-weather-summary-5mm.py`
+   - Input: Processed weather data
+   - Output: festival_weather_comparison.csv
+   - Purpose: Creates summary of weather metrics by festival, including:
+     - Festival Weather Score based on standardized measurements
+     - Rainfall analysis (counting days with >5mm as rain days)
+     - Temperature and wind statistics
+
 #### Filter Controls
 
 - **Region dropdown** for geographic filtering
