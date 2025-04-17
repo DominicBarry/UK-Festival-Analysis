@@ -55,18 +55,24 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 ### 2. Weather Analysis Dashboard
 
-2. `weather-data-validator-detailed.py`
-   - Input: all_festivals_historical_weather.csv
-   - Output: Processed weather data ready for analysis
-   - Purpose: Initial processing of raw weather data
+#### Filter Controls
+- **Region dropdown** for geographic filtering
+- **Music Genre dropdown** for genre-specific analysis
+- **Month slider** for temporal filtering
 
-3. `festival-weather-summary-5mm.py`
-   - Input: Processed weather data
-   - Output: festival_weather_comparison.csv
-   - Purpose: Creates summary of weather metrics by festival, including:
-     - Festival Weather Score based on standardized measurements
-     - Rainfall analysis (counting days with >5mm as rain days)
-     - Temperature and wind statistics
+#### Weather Metric Comparisons
+- **Wettest Festivals** bar chart showing rainfall probability (Solfest at 30.0%)
+- **Driest Festivals** bar chart showing minimal rainfall chance (Cross The Tracks at 3.3%)
+- **Windiest Festivals** bar chart showing average max windspeed (Tiree Music Festival at 30.2 kmh)
+- **Least Windy Festivals** bar chart (Home of the Drum at 16.8 kmh)
+
+#### Temperature Analysis
+- **Warmest Festivals** dot plot showing min/max temperature ranges (Jazz Cafe Festival leading)
+- **Coldest Festivals** dot plot showing min/max temperature ranges
+
+#### Summary Metrics
+- **Festival Weather Score** bar chart ranking overall weather quality (Tolpuddle Martyrs Festival leading)
+- **Weather Map** showing geographic distribution of festivals with color-coded weather scores
 
 #### Filter Controls
 
@@ -90,7 +96,6 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 - **Festival Weather Score** bar chart ranking overall weather quality (Tolpuddle Martyrs Festival leading)
 - **Weather Map** showing geographic distribution of festivals with color-coded weather scores
-
 
 ## Key Findings
 
