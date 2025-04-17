@@ -67,11 +67,12 @@ The analysis folder contains Python scripts to be run in RStudio in the followin
      ```bash
      pip install -r requirements.txt
      ```
+     
+##Data
 
-## Sample Data ?????
-
-- [Sample Cleaned Dataset (100 rows)](../data-cleaning/cleaned-data/leeds_cycle_counts_sample.csv) - Representative sample of the full cleaned dataset
-
+- [UK Festivals - ](../data/festivals_25_cleaned.csv)
+- [Weather Data - ](../data/all_festivals_weather_cleaned.csv)
+- [Weather Comparison - ](../data/festivals_weather_comparison.csv)
 
 ## Summary & Caveats
 
