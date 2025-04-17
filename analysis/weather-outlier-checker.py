@@ -1,122 +1,124 @@
+"""
+Script: weather-outlier-checker.py
+Purpose: Identifies and analyzes outliers in festival weather data
+Input: data/all_festivals_historical_weather.csv
+Output: Prints outlier analysis report to console
+Author: Dom Barry
+"""
+
 import pandas as pd
 import numpy as np
 from scipy import stats
+import os
 
-def check_outliers():
+# Define file paths
+DATA_DIR = 'data'
+INPUT_FILE = os.path.join(DATA_DIR, 'all_festivals_historical_weather.csv')
+
+def load_data():
     """
-    Checks for outliers in weather metrics using multiple methods:
-    1. IQR (Interquartile Range) Method
-    2. Z-score Method
-    Both methods are used as they have different strengths for outlier detection
+    Loads weather data and performs initial validation
+    Returns DataFrame if successful
     """
-    print("Loading weather data...")
-    df = pd.read_csv('all_festivals_weather_cleaned.csv')
+    # Check if input file exists
+    if not os.path.exists(INPUT_FILE):
+        raise FileNotFoundError(f"Input file not found: {INPUT_FILE}")
     
-    # Define weather metrics to check
-    weather_metrics = ['max_temp_c', 'min_temp_c', 'rainfall_mm', 'max_windspeed_kmh']
+    print(f"Loading data from {INPUT_FILE}...")
+    df = pd.read_csv(INPUT_FILE)
+    print(f"Loaded {len(df)} records")
+    return df
+
+def identify_outliers(data, column):
+    """
+    Identifies outliers using the IQR method
+    Returns lower bound, upper bound, and outlier mask
+    """
+    Q1 = data[column].quantile(0.25)
+    Q3 = data[column].quantile(0.75)
+    IQR = Q3 - Q1
+    lower_bound = Q1 - 1.5 * IQR
+    upper_bound = Q3 + 1.5 * IQR
+    outliers = (data[column] < lower_bound) | (data[column] > upper_bound)
+    return lower_bound, upper_bound, outliers
+
+def analyze_temperature_outliers(df):
+    """
+    Analyzes temperature outliers
+    """
+    print("\nAnalyzing Temperature Outliers:")
+    print("="*50)
     
-    # Store results for each metric
-    outlier_results = {}
+    # Max temperature outliers
+    lower, upper, outliers = identify_outliers(df, 'max_temp_c')
+    outlier_records = df[outliers]
     
-    for metric in weather_metrics:
-        print(f"\nAnalyzing {metric}:")
-        
-        # Calculate basic statistics
-        mean_val = df[metric].mean()
-        median_val = df[metric].median()
-        std_val = df[metric].std()
-        
-        # Method 1: IQR Method
-        # Calculate Q1 (25th percentile) and Q3 (75th percentile)
-        Q1 = df[metric].quantile(0.25)
-        Q3 = df[metric].quantile(0.75)
-        IQR = Q3 - Q1
-        
-        # Define outlier bounds (1.5 * IQR is a common threshold)
-        lower_bound = Q1 - 1.5 * IQR
-        upper_bound = Q3 + 1.5 * IQR
-        
-        # Find outliers using IQR method
-        iqr_outliers = df[
-            (df[metric] < lower_bound) | 
-            (df[metric] > upper_bound)
-        ]
-        
-        # Method 2: Z-score Method
-        # Calculate z-scores for the metric
-        z_scores = np.abs(stats.zscore(df[metric]))
-        
-        # Find outliers using z-score method (typically z-score > 3 is considered an outlier)
-        z_score_outliers = df[z_scores > 3]
-        
-        # Store results for this metric
-        outlier_results[metric] = {
-            'basic_stats': {
-                'mean': mean_val,
-                'median': median_val,
-                'std': std_val,
-                'min': df[metric].min(),
-                'max': df[metric].max()
-            },
-            'iqr_bounds': {
-                'lower': lower_bound,
-                'upper': upper_bound,
-                'outliers_count': len(iqr_outliers)
-            },
-            'z_score_outliers_count': len(z_score_outliers),
-            'iqr_outliers': iqr_outliers,
-            'z_score_outliers': z_score_outliers
-        }
-        
-        # Print summary for this metric
-        print(f"\nBasic Statistics for {metric}:")
-        print(f"Mean: {mean_val:.2f}")
-        print(f"Median: {median_val:.2f}")
-        print(f"Standard Deviation: {std_val:.2f}")
-        print(f"Min: {df[metric].min():.2f}")
-        print(f"Max: {df[metric].max():.2f}")
-        
-        print(f"\nIQR Method Results:")
-        print(f"Lower bound: {lower_bound:.2f}")
-        print(f"Upper bound: {upper_bound:.2f}")
-        print(f"Number of outliers: {len(iqr_outliers)}")
-        
-        print(f"\nZ-score Method Results:")
-        print(f"Number of outliers: {len(z_score_outliers)}")
-        
-        # Print example outliers if any found
-        if len(iqr_outliers) > 0:
-            print("\nExample IQR outliers:")
-            sample_outliers = iqr_outliers.nlargest(5, metric)[
-                ['festival_name', 'historical_year', 'calendar_date', metric]
-            ]
-            print(sample_outliers)
-        
-        # Save outliers to separate CSV files
-        if len(iqr_outliers) > 0:
-            iqr_filename = f'outliers_{metric}_iqr.csv'
-            iqr_outliers.to_csv(iqr_filename, index=False)
-            print(f"\nIQR outliers saved to: {iqr_filename}")
-        
-        if len(z_score_outliers) > 0:
-            z_filename = f'outliers_{metric}_zscore.csv'
-            z_score_outliers.to_csv(z_filename, index=False)
-            print(f"\nZ-score outliers saved to: {z_filename}")
+    print("\nMaximum Temperature Outliers:")
+    print(f"Normal range: {lower:.1f}°C to {upper:.1f}°C")
+    print(f"Found {len(outlier_records)} outliers")
     
-    # Print overall summary
-    print("\nOverall Summary:")
-    print("=" * 50)
-    for metric in weather_metrics:
-        print(f"\n{metric}:")
-        print(f"IQR Outliers: {outlier_results[metric]['iqr_bounds']['outliers_count']}")
-        print(f"Z-score Outliers: {outlier_results[metric]['z_score_outliers_count']}")
+    if len(outlier_records) > 0:
+        print("\nTop 5 highest temperatures:")
+        for _, row in outlier_records.nlargest(5, 'max_temp_c').iterrows():
+            print(f"{row['festival_name']}: {row['max_temp_c']:.1f}°C on {row['full_date']}")
         
-        # Calculate percentage of outliers
-        total_records = len(df)
-        iqr_pct = (outlier_results[metric]['iqr_bounds']['outliers_count'] / total_records) * 100
-        z_pct = (outlier_results[metric]['z_score_outliers_count'] / total_records) * 100
-        print(f"IQR Outlier Percentage: {iqr_pct:.2f}%")
-        print(f"Z-score Outlier Percentage: {z_pct:.2f}%")
+        print("\nTop 5 lowest temperatures:")
+        for _, row in outlier_records.nsmallest(5, 'max_temp_c').iterrows():
+            print(f"{row['festival_name']}: {row['max_temp_c']:.1f}°C on {row['full_date']}")
+
+def analyze_rainfall_outliers(df):
+    """
+    Analyzes rainfall outliers
+    """
+    print("\nAnalyzing Rainfall Outliers:")
+    print("="*50)
+    
+    lower, upper, outliers = identify_outliers(df, 'rainfall_mm')
+    outlier_records = df[outliers]
+    
+    print(f"\nNormal rainfall range: {lower:.1f}mm to {upper:.1f}mm")
+    print(f"Found {len(outlier_records)} outliers")
+    
+    if len(outlier_records) > 0:
+        print("\nTop 5 heaviest rainfall days:")
+        for _, row in outlier_records.nlargest(5, 'rainfall_mm').iterrows():
+            print(f"{row['festival_name']}: {row['rainfall_mm']:.1f}mm on {row['full_date']}")
+
+def analyze_wind_outliers(df):
+    """
+    Analyzes wind speed outliers
+    """
+    print("\nAnalyzing Wind Speed Outliers:")
+    print("="*50)
+    
+    lower, upper, outliers = identify_outliers(df, 'max_windspeed_kmh')
+    outlier_records = df[outliers]
+    
+    print(f"\nNormal wind speed range: {lower:.1f}km/h to {upper:.1f}km/h")
+    print(f"Found {len(outlier_records)} outliers")
+    
+    if len(outlier_records) > 0:
+        print("\nTop 5 windiest days:")
+        for _, row in outlier_records.nlargest(5, 'max_windspeed_kmh').iterrows():
+            print(f"{row['festival_name']}: {row['max_windspeed_kmh']:.1f}km/h on {row['full_date']}")
+
+def main():
+    """
+    Main function to run outlier analysis
+    """
+    try:
+        # Load data
+        df = load_data()
+        
+        # Run outlier analyses
+        analyze_temperature_outliers(df)
+        analyze_rainfall_outliers(df)
+        analyze_wind_outliers(df)
+        
+        print("\nOutlier analysis complete!")
+        
+    except Exception as e:
+        print(f"Error during analysis: {e}")
 
 if __name__ == "__main__":
-    check_outliers()
+    main()

@@ -1,167 +1,121 @@
-import pandas as pd
-from datetime import datetime
-from collections import defaultdict
+"""
+Script: weather-data-validator-detailed.py
+Purpose: Validates and analyzes weather data completeness and quality for festival data
+Input: data/all_festivals_historical_weather.csv
+Output: Prints detailed validation report to console
+Author: Dom Barry
+"""
 
-def check_data_completeness():
+import pandas as pd
+import numpy as np
+import os
+
+# Define file paths
+DATA_DIR = 'data'
+INPUT_FILE = os.path.join(DATA_DIR, 'all_festivals_historical_weather.csv')
+
+def load_and_validate_data():
     """
-    Enhanced validation of weather data completeness with detailed reporting
+    Loads weather data and performs detailed validation checks
+    Returns DataFrame if successful
     """
-    print("Loading data files...")
-    festivals = pd.read_csv('festivals.csv')
-    weather = pd.read_csv('all_festivals_weather_cleaned.csv')
+    # Check if input file exists
+    if not os.path.exists(INPUT_FILE):
+        raise FileNotFoundError(f"Input file not found: {INPUT_FILE}")
     
-    print(f"\nChecking completeness for {len(festivals)} festivals...")
+    print(f"Loading data from {INPUT_FILE}...")
+    df = pd.read_csv(INPUT_FILE)
+    print(f"Loaded {len(df)} records\n")
+    return df
+
+def print_section_header(title):
+    """Prints formatted section header"""
+    print("\n" + "="*50)
+    print(title)
+    print("="*50 + "\n")
+
+def analyze_missing_values(df):
+    """Analyzes and reports on missing values in the dataset"""
+    print_section_header("Missing Values Analysis")
     
-    # Initialize results storage
-    missing_data = []
-    duplicate_data = []
-    other_issues = []
-    festival_issue_count = defaultdict(int)
+    missing_values = df.isnull().sum()
+    print("Missing values by column:")
+    for column, count in missing_values[missing_values > 0].items():
+        print(f"{column}: {count} missing values ({(count/len(df))*100:.2f}%)")
+
+def analyze_data_ranges(df):
+    """Analyzes and reports on data ranges and potential outliers"""
+    print_section_header("Data Ranges Analysis")
     
-    # Track specific details about duplicates
-    duplicate_details = []
+    numeric_columns = ['max_temp_c', 'min_temp_c', 'rainfall_mm', 
+                      'total_precipitation_mm', 'max_windspeed_kmh']
     
-    # Check each festival
-    for _, festival in festivals.iterrows():
-        festival_id = festival['ID']
-        festival_name = festival['Title']
+    for column in numeric_columns:
+        print(f"\n{column} Analysis:")
+        print(f"Min: {df[column].min():.2f}")
+        print(f"Max: {df[column].max():.2f}")
+        print(f"Mean: {df[column].mean():.2f}")
+        print(f"Std Dev: {df[column].std():.2f}")
         
-        # Get festival's weather data
-        festival_weather = weather[weather['festival_id'] == festival_id]
+        # Identify potential outliers using IQR method
+        Q1 = df[column].quantile(0.25)
+        Q3 = df[column].quantile(0.75)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        outliers = df[(df[column] < lower_bound) | (df[column] > upper_bound)]
         
-        # Check for each year (1995-2024)
-        years_present = festival_weather['historical_year'].unique()
-        if len(years_present) != 30:
-            missing_years = set(range(1995, 2025)) - set(years_present)
-            if missing_years:
-                missing_data.append({
-                    'festival_id': festival_id,
-                    'festival_name': festival_name,
-                    'issue': f"Missing years: {sorted(missing_years)}"
-                })
-                festival_issue_count[festival_name] += 1
-        
-        # Check for duplicates with detailed information
-        duplicates = festival_weather.groupby(['historical_year', 'calendar_date']).size()
-        duplicate_dates = duplicates[duplicates > 1]
-        if not duplicate_dates.empty:
-            # Get detailed information about duplicates
-            for (year, date), count in duplicate_dates.items():
-                duplicate_rows = festival_weather[
-                    (festival_weather['historical_year'] == year) & 
-                    (festival_weather['calendar_date'] == date)
-                ]
-                duplicate_details.append({
-                    'festival_id': festival_id,
-                    'festival_name': festival_name,
-                    'year': year,
-                    'date': date,
-                    'count': count,
-                    'records': duplicate_rows.to_dict('records')
-                })
-            
-            duplicate_data.append({
-                'festival_id': festival_id,
-                'festival_name': festival_name,
-                'issue': f"Duplicate dates found: {duplicate_dates.index.tolist()}"
-            })
-            festival_issue_count[festival_name] += 1
-        
-        # Check data completeness
-        start_date = pd.to_datetime(festival['startDate'], format='%d/%m/%Y')
-        end_date = pd.to_datetime(festival['endDate'], format='%d/%m/%Y')
-        expected_days = (end_date - start_date).days + 1
-        
-        # Check each year has the correct number of days
-        for year in years_present:
-            year_data = festival_weather[festival_weather['historical_year'] == year]
-            if len(year_data) != expected_days:
-                other_issues.append({
-                    'festival_id': festival_id,
-                    'festival_name': festival_name,
-                    'year': year,
-                    'found_days': len(year_data),
-                    'expected_days': expected_days,
-                    'dates_present': sorted(year_data['calendar_date'].tolist())
-                })
-                festival_issue_count[festival_name] += 1
+        if not outliers.empty:
+            print(f"\nPotential outliers detected ({len(outliers)} records):")
+            print(f"Values outside range: {lower_bound:.2f} to {upper_bound:.2f}")
+
+def analyze_completeness_by_festival(df):
+    """Analyzes data completeness for each festival"""
+    print_section_header("Festival-level Completeness Analysis")
     
-    # Print detailed results
-    print("\nDetailed Data Completeness Check Results:")
-    print("=" * 80)
+    festival_summary = df.groupby('festival_name').agg({
+        'historical_year': 'nunique',
+        'calendar_date': 'count'
+    }).reset_index()
     
-    if missing_data:
-        print("\nFestivals with Missing Years:")
-        print("-" * 50)
-        for issue in missing_data:
-            print(f"Festival {issue['festival_id']} ({issue['festival_name']}): {issue['issue']}")
+    print("Festivals with incomplete data:")
+    incomplete = festival_summary[festival_summary['historical_year'] < 30]
+    if len(incomplete) > 0:
+        for _, row in incomplete.iterrows():
+            print(f"\nFestival: {row['festival_name']}")
+            print(f"Years of data: {row['historical_year']}")
+            print(f"Total records: {row['calendar_date']}")
     else:
-        print("\nNo missing years found!")
-        
-    if duplicate_data:
-        print("\nFestivals with Duplicate Data:")
-        print("-" * 50)
-        print(f"\nFound {len(duplicate_details)} duplicate date instances across {len(duplicate_data)} festivals:")
-        for detail in duplicate_details:
-            print(f"\nFestival: {detail['festival_name']} (ID: {detail['festival_id']})")
-            print(f"Year: {detail['year']}, Date: {detail['date']}")
-            print(f"Number of duplicates: {detail['count']}")
-            # Compare duplicate records
-            records = detail['records']
-            if len(records) > 1:
-                print("Duplicate Records Comparison:")
-                for field in ['max_temp_c', 'min_temp_c', 'rainfall_mm', 'max_windspeed_kmh']:
-                    values = [r[field] for r in records]
-                    if len(set(values)) > 1:
-                        print(f"  {field}: {values} (Values differ!)")
-    else:
-        print("\nNo duplicate data found!")
-        
-    if other_issues:
-        print("\nDay Count Issues:")
-        print("-" * 50)
-        issues_by_pattern = defaultdict(list)
-        for issue in other_issues:
-            pattern = f"Expected {issue['expected_days']} days, found {issue['found_days']}"
-            issues_by_pattern[pattern].append(issue)
-        
-        print("\nIssues grouped by pattern:")
-        for pattern, issues in issues_by_pattern.items():
-            print(f"\n{pattern} ({len(issues)} instances):")
-            for issue in issues[:5]:  # Show first 5 examples
-                print(f"- {issue['festival_name']} (Year: {issue['year']})")
-            if len(issues) > 5:
-                print(f"  ... and {len(issues) - 5} more instances")
+        print("All festivals have complete data for all 30 years")
+
+def analyze_temporal_coverage(df):
+    """Analyzes temporal coverage of the dataset"""
+    print_section_header("Temporal Coverage Analysis")
     
-    # Print festivals with multiple issues
-    print("\nFestivals with Multiple Issues:")
-    print("-" * 50)
-    multi_issue_festivals = {k: v for k, v in festival_issue_count.items() if v > 1}
-    if multi_issue_festivals:
-        for festival, count in sorted(multi_issue_festivals.items(), key=lambda x: x[1], reverse=True):
-            print(f"{festival}: {count} issues")
-    else:
-        print("No festivals have multiple issues")
-    
-    # Print summary statistics
-    print("\nSummary Statistics:")
-    print("=" * 50)
-    print(f"Total festivals checked: {len(festivals)}")
-    print(f"Total weather records: {len(weather)}")
-    print(f"Festivals with missing data: {len(missing_data)}")
-    print(f"Festivals with duplicates: {len(duplicate_data)}")
-    print(f"Total duplicate instances: {len(duplicate_details)}")
-    print(f"Festivals with day count issues: {len(set(i['festival_name'] for i in other_issues))}")
-    print(f"Total day count issues: {len(other_issues)}")
-    print(f"Festivals with multiple issues: {len(multi_issue_festivals)}")
-    
-    # Check for any null values in important columns
-    null_counts = weather.isnull().sum()
-    if null_counts.any():
-        print("\nNull Values Found:")
-        print(null_counts[null_counts > 0])
-    else:
-        print("\nNo null values found in the dataset!")
+    year_counts = df['historical_year'].value_counts().sort_index()
+    print("Records per year:")
+    for year, count in year_counts.items():
+        print(f"{year}: {count} records")
+
+def main():
+    """
+    Main function to run all validation checks
+    """
+    try:
+        df = load_and_validate_data()
+        
+        print_section_header("Dataset Overview")
+        print(f"Total records: {len(df)}")
+        print(f"Unique festivals: {df['festival_name'].nunique()}")
+        print(f"Date range: {df['full_date'].min()} to {df['full_date'].max()}")
+        
+        analyze_missing_values(df)
+        analyze_data_ranges(df)
+        analyze_completeness_by_festival(df)
+        analyze_temporal_coverage(df)
+        
+    except Exception as e:
+        print(f"Error during validation: {e}")
 
 if __name__ == "__main__":
-    check_data_completeness()
+    main()
