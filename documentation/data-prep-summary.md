@@ -68,11 +68,11 @@ The analysis folder contains Python scripts to be run in RStudio in the followin
      pip install -r requirements.txt
      ```
      
-##Data
+## Data
 
-- [UK Festivals - ](../data/festivals_25_cleaned.csv)
-- [Weather Data - ](../data/all_festivals_weather_cleaned.csv)
-- [Weather Comparison - ](../data/festivals_weather_comparison.csv)
+- [UK Festivals](../data/festivals_25_cleaned.csv) - name, date, capacity, genre, duration, camping & location data set
+- [Sample Weather Data 100 rows](../data/all_festivals_weather_sample.csv) - weather data by festival location for 30 years
+- [Weather Comparison](../data/festival_weather_comparison.csv) - aggregated weather metrics for each festival to support comparative analysis
 
 ## Summary & Caveats
 
