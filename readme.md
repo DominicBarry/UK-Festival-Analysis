@@ -45,13 +45,13 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 #### Market Segmentation Visualizations
 
-- **Top Genres** treemap showing distribution by count/capacity (Mixed/General leading with 63 festivals)
+- **Top Genres** treemap showing distribution by count/capacity
 - **UK Map** showing geographic distribution of festivals with size/color indicating capacity
-- **Country breakdown** bar chart showing England (178) dominates with Scotland (14) and Wales (13) following
-- **Top Regions** bar chart highlighting South East (34) and South West (32) as leading areas
-- **Month distribution** bar chart showing July (76) and August (47) as peak festival months
-- **Duration distribution** showing 3-day festivals (68) are most common
-- **Top Festivals** by capacity bar chart with Glastonbury (210K) leading
+- **Country breakdown** bar chart by count/capacity
+- **Top Regions** bar chart by count/capacity
+- **Month distribution** bar chart by count/capacity
+- **Duration distribution** sbar chart by count/capacity
+- **Top Festivals** by capacity bar chart
 
 ### 2. Weather Analysis Dashboard
 
@@ -62,17 +62,17 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 - **Month slider** for temporal filtering
 
 #### Weather Metric Comparisons
-- **Wettest Festivals** bar chart showing rainfall probability (Solfest at 30.0%)
-- **Driest Festivals** bar chart showing minimal rainfall chance (Cross The Tracks at 3.3%)
-- **Windiest Festivals** bar chart showing average max windspeed (Tiree Music Festival at 30.2 kmh)
-- **Least Windy Festivals** bar chart (Home of the Drum at 16.8 kmh)
+- **Wettest Festivals** bar chart showing rainfall probability
+- **Driest Festivals** bar chart showing minimal rainfall chance
+- **Windiest Festivals** bar chart showing average max windspeed
+- **Least Windy Festivals** bar chart
 
 #### Temperature Analysis
-- **Warmest Festivals** dot plot showing min/max temperature ranges (Jazz Cafe Festival leading)
+- **Warmest Festivals** dot plot showing min/max temperature ranges
 - **Coldest Festivals** dot plot showing min/max temperature ranges
 
 #### Summary Metrics
-- **Festival Weather Score** bar chart ranking overall weather quality (Tolpuddle Martyrs Festival leading)
+- **Festival Weather Score** bar chart ranking overall weather quality
 - **Weather Map** showing geographic distribution of festivals with color-coded weather scores
 
 ## Key Findings
