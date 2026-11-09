@@ -1,4 +1,4 @@
-# UK Festival Analysis
+# UK Music Festival Weather Analysis
 Which UK festivals have the best weather? I scraped details of 206 UK festivals for 2025, then cleaned and geocoded them. For each festival, I pulled weather for the same dates in every year from 1995 to 2024 using the Open-Meteo API. I combined temperature, rain days (over 5mm) and wind into a Festival Weather Score using z-scores, and built Tableau dashboards to compare festivals by region, genre and month.
 
 ## Overview
