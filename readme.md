@@ -1,12 +1,12 @@
 # UK Festival Analysis
-A comprehensive analysis of 206 UK festivals in 2025, combining web scraped festival data with 30 years of historical weather patterns to provide insights and predict optimal festival experiences through interactive visualizations.
+Which UK festivals have the best weather? I scraped details of 206 UK festivals for 2025, then cleaned and geocoded them. For each festival, I pulled weather for the same dates in every year from 1995 to 2024 using the Open-Meteo API. I combined temperature, rain days (over 5mm) and wind into a Festival Weather Score using z-scores, and built Tableau dashboards to compare festivals by region, genre and month.
 
 ## Overview
 
 - Festival info scraped from the internet, extracted, cleaned, augmented, geocoded
 - Geocoded weather data sourced from Open-Meteo.com
 - Screaming Frog, Google Sheets, Geocoding by SmartMonkey, Claude.ai, R, Python & Tableau used
-- It was then imported into Tableau & augmented with calculated fields to support further analysis
+- Data imported into Tableau and augmented with calculated fields to support further analysis
 
 ## Data Structure
 
@@ -18,19 +18,19 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 ## Methodology
 
-- Web Scraping & Data Collection
-- Data Cleaning & Transformation
-- API Integration
-- Statistical Analysis
-- Geographic Data Processing
-- Data Visualization using Tableau
+- Web scraping and data collection
+- Data cleaning and transformation
+- API integration
+- Statistical analysis
+- Geographic data processing
+- Data visualisation in Tableau
 
 ## Tools Used
 
 - Data Collection: Screaming Frog
-- Data Processing: Google Sheets, Python (Pandas, NumPy, SciPy)
-- API Integration: Open-Meteo Weather API
-- Development: R Studio
+- Data Processing: Google Sheets, Python (pandas, NumPy, SciPy)
+- API Integration: Open-Meteo API
+- Development: RStudio
 - Visualization: Tableau
 
 ## Dashboard Structure
@@ -50,7 +50,7 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 - **Country breakdown** bar chart by count/capacity
 - **Top Regions** bar chart by count/capacity
 - **Month distribution** bar chart by count/capacity
-- **Duration distribution** sbar chart by count/capacity
+- **Duration distribution** bar chart by count/capacity
 - **Top Festivals** by capacity bar chart
 
 ### 2. Weather Analysis Dashboard
@@ -79,14 +79,14 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 - Market Analysis:
   - Mixed/general is the leading genre with 63 festivals (1.3 million capacity)
-  - July hosts most festivals (76), but August has highest capacity (885k)
+  - July hosts the most festivals (76), but August has the highest capacity (885k)
   - South East England leads with 34 festivals (580k capacity)
   - Typical festival duration is 3 days
 
 - Weather Analysis:
-  - Driest: Cross the Tacks (3.3% chance of significant rainfall)
-  - Most Stable Wind: Home of the Drum (16.8kmh avg. max wind)
-  - Warmest: Jazz Cafe Festival (14.3C-22.4C temperature range)
+  - Driest: Cross the Tracks (3.3% chance of significant rainfall)
+  - Least Windy: Home of the Drum (16.8 km/h avg. max wind)
+  - Warmest: Jazz Cafe Festival (14.3–22.4°C)
   - Best Overall Weather: Tolpuddle Martyrs Festival and Rally
 
 ## How to view the dashboard
@@ -101,4 +101,4 @@ The steps taken to process the data prior to analysis in Tableau can be found [h
 
 ## Caveats & Assumptions
 
-Festival specifc information was scraped from 3rd party sites on the internet & is not guaranteed to be reliable but does provide a reasonable data set for analysis. It would be very interesting to repeat this analysis using first party data from industry bodies and/or licensing authorities.
+Festival-specific information was scraped from third-party sites and is not guaranteed to be reliable, but it does provide a reasonable data set for analysis. It would be very interesting to repeat this analysis using first party data from industry bodies and/or licensing authorities.
